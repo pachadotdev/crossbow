@@ -1,0 +1,26 @@
+!Job
+target: !Target
+  head: 6755acb2cf3c71024474ac27199b5def526e936b
+  email: unknown
+  branch: packaging-ubuntu-16.04-protobuf
+  remote: https://github.com/kou/arrow.git
+  version: 2.1.0.dev642
+  no_rc_version: 2.1.0.dev642
+  no_rc_semver_version: 2.1.0-dev642
+tasks:
+  verify-rc-binaries-apt: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_APT: 1
+      artifact: binaries
+
+    branch: actions-26-github-verify-rc-binaries-apt
+    commit: 36bb45b3667ebd99ef1d4a1a54ce9ea8eb924482
+params:
+  release: 3.0.0
+  rc: '1'
+branch: actions-26

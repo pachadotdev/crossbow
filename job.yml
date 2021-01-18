@@ -1,0 +1,26 @@
+!Job
+target: !Target
+  head: 9bd3625a2a8c17d9bb78a1c5a33f7d965574e66f
+  email: unknown
+  branch: release-verify-ubuntu-groovy-workaround
+  remote: https://github.com/kou/arrow.git
+  version: 2.1.0.dev644
+  no_rc_version: 2.1.0.dev644
+  no_rc_semver_version: 2.1.0-dev644
+tasks:
+  verify-rc-binaries-apt: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_APT: 1
+      artifact: binaries
+
+    branch: actions-27-github-verify-rc-binaries-apt
+    commit: b7d134020ff846f8136df42eabc5151e548522f6
+params:
+  release: 3.0.0
+  rc: '1'
+branch: actions-27

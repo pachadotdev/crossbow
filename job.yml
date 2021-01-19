@@ -1,0 +1,47 @@
+!Job
+target: !Target
+  head: 48dd91e67c231bd77b11c9b2a4ef6b0e598543f7
+  email: unknown
+  branch: verify-3.0.0-rc1
+  remote: https://github.com/kszucs/arrow.git
+  version: 2.1.0.dev646
+  no_rc_version: 2.1.0.dev646
+  no_rc_semver_version: 2.1.0-dev646
+tasks:
+  verify-rc-wheels-linux: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+      artifact: wheels
+
+    branch: actions-31-github-verify-rc-wheels-linux
+    commit: 372fbfbbbf2a11e019ca7c4b47846bd80d682855
+  verify-rc-wheels-macos: !Task
+    ci: github
+    template: verify-rc/github.osx.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+      artifact: wheels
+
+    branch: actions-31-github-verify-rc-wheels-macos
+    commit: 74bb14c6dc570878dc61f2898150956b06e0bd57
+  verify-rc-wheels-windows: !Task
+    ci: github
+    template: verify-rc/github.win.yml
+    artifacts: []
+    params:
+      script: verify-release-candidate-wheels.bat
+
+  ############################## Docker tests #################################
+
+    branch: actions-31-github-verify-rc-wheels-windows
+    commit: ae522fa37fdf00caf9e09167c3c18b299eab0637
+params:
+  release: 3.0.0
+  rc: '2'
+branch: actions-31

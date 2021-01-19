@@ -1,0 +1,38 @@
+!Job
+target: !Target
+  head: 39a588dd7739d15fa0afaa030edf279c3d3c1823
+  email: unknown
+  branch: release-verify-arm64
+  remote: https://github.com/kou/arrow.git
+  version: 2.1.0.dev647
+  no_rc_version: 2.1.0.dev647
+  no_rc_semver_version: 2.1.0-dev647
+tasks:
+  verify-rc-binaries-apt: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_APT: 1
+      artifact: binaries
+
+    branch: actions-35-github-verify-rc-binaries-apt
+    commit: 5a167736353c1251da5f50d54467c7473b32dd4a
+  verify-rc-binaries-yum: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_YUM: 1
+      artifact: binaries
+
+    branch: actions-35-github-verify-rc-binaries-yum
+    commit: a1d648fc71b5aab033c94a43b364543d3b084931
+params:
+  release: 3.0.0
+  rc: '2'
+branch: actions-35

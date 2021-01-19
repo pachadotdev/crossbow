@@ -1,0 +1,25 @@
+!Job
+target: !Target
+  head: d0bea0f19c2bf22af973d722b4730063afe75039
+  email: unknown
+  branch: ci-spark-branch-3.0-ARROW-10457
+  remote: https://github.com/BryanCutler/arrow.git
+  version: 2.1.0.dev661
+  no_rc_version: 2.1.0.dev661
+  no_rc_semver_version: 2.1.0-dev661
+tasks:
+  test-conda-python-3.7-spark-branch-3.0: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        SPARK: branch-3.0
+      # use the branch-3.0 of spark, so prevent reusing any layers
+      run: --no-leaf-cache conda-python-spark-pyarrow-only
+
+    branch: actions-39-github-test-conda-python-3.7-spark-branch-3.0
+    commit: 4bac66a3ff798db44fa0210789f87f3bf56ea0a4
+params: {}
+branch: actions-39

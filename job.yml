@@ -1,0 +1,61 @@
+!Job
+target: !Target
+  head: 129d8d4487cce56cdac009609863709dbf0869d7
+  email: unknown
+  branch: bump-mimalloc
+  remote: https://github.com/nealrichardson/arrow.git
+  version: 3.1.0.dev117
+  no_rc_version: 3.1.0.dev117
+  no_rc_semver_version: 3.1.0-dev117
+tasks:
+  centos-7-amd64: !Task
+    ci: github
+    template: linux-packages/github.linux.amd64.yml
+    artifacts:
+    - apache-arrow-release-3.1.0.dev117-1.el7.noarch.rpm
+    - apache-arrow-release-3.1.0.dev117-1.el7.src.rpm
+    - arrow-3.1.0.dev117-1.el7.src.rpm
+    - arrow-debuginfo-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-glib-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-glib-doc-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-glib-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-dataset-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-dataset-glib-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-dataset-glib-doc-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-dataset-glib-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-dataset-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-python-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - arrow-python-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - parquet-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - parquet-glib-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - parquet-glib-doc-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - parquet-glib-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - parquet-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - plasma-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - plasma-glib-devel-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - plasma-glib-doc-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - plasma-glib-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - plasma-libs-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    - plasma-store-server-3.1.0.dev117-1.el7.[a-z0-9_]+.rpm
+    params:
+      build_task: yum:build
+      target: centos-7
+      upload_extensions:
+      - .rpm
+    branch: actions-63-github-centos-7-amd64
+    commit: b2f0f8cafd854df84731ec7707a56b44fa71d5ce
+  wheel-osx-high-sierra-cp36m: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev117-cp36-cp36m-macosx_10_13_x86_64.whl
+    params:
+      python_version: 3.6
+      macos_deployment_target: 10.13
+      arrow_s3: ON
+    branch: actions-63-github-wheel-osx-high-sierra-cp36m
+    commit: 995f814a138e16e006b00cf35abb17aa0a1d4c68
+params: {}
+branch: actions-63

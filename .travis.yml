@@ -1,0 +1,105 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+os: linux
+arch: arm64
+dist: bionic
+language: minimal
+
+addons:
+  apt:
+    packages:
+      - apt-utils
+      - createrepo
+      - devscripts
+      - gpg
+      - libgit2-dev
+      - python3-pip
+      - rake
+      - rpm
+
+services:
+  - docker
+
+# don't build twice
+if: tag IS blank
+
+env:
+  global:
+    - APT_TARGETS=ubuntu-focal-arm64
+    - ARROW_VERSION=3.1.0.dev114
+    - BUILD_REF=26b1b5b5749f52138c466ce6aff712bc5697e06f
+    - TRAVIS_TAG=actions-70-travis-ubuntu-focal-arm64
+    - YUM_TARGETS=ubuntu-focal-arm64
+
+before_script:
+  - git clone --no-checkout https://github.com/kou/arrow.git arrow
+  - git -C arrow fetch -t https://github.com/kou/arrow.git packaging-linux-test
+  - git -C arrow checkout FETCH_HEAD
+
+script:
+  # Build packages
+  - pushd arrow/dev/tasks/linux-packages
+  - rake version:update
+  - |
+      rake docker:pull || :
+  - |
+      rake \
+        --trace \
+        apt:build \
+        BUILD_DIR=build \
+        DEB_BUILD_OPTIONS=parallel=4 \
+        RPM_BUILD_NCPUS=4
+  - sudo rm -rf */*/build
+  - popd
+  # Push Docker image
+  - pushd arrow/dev/tasks/linux-packages
+  - |
+      docker login -u "${DOCKERHUB_USER}" \
+                   -p "${DOCKERHUB_TOKEN}" || :
+  - |
+      rake docker:push || :
+  - popd
+  # Test built packages
+  - |
+      (echo "Key-Type: RSA"; \
+       echo "Key-Length: 4096"; \
+       echo "Name-Real: Test"; \
+       echo "Name-Email: test@example.com"; \
+       echo "%no-protection") | \
+        gpg --full-generate-key --batch
+  - GPG_KEY_ID=$(gpg --list-keys --with-colon test@example.com | grep fpr | cut -d: -f10)
+  - gpg --export --armor test@example.com > arrow/dev/tasks/linux-packages/KEYS
+  - pushd arrow/dev/tasks/linux-packages
+  - rake --trace apt:test GPG_KEY_ID=${GPG_KEY_ID}
+  - rm -rf apt/repositories
+  - popd
+
+after_success:
+  - sudo -H pip3 install --requirement arrow/dev/tasks/requirements-crossbow.txt
+  - |
+    python3 arrow/dev/tasks/crossbow.py \
+      --queue-path . \
+      --queue-remote https://github.com/ursacomputing/crossbow \
+      upload-artifacts \
+      --pattern "arrow/dev/tasks/linux-packages/**/*.ddeb" \
+      --pattern "arrow/dev/tasks/linux-packages/**/*.deb" \
+      --pattern "arrow/dev/tasks/linux-packages/**/*.debian.tar.xz" \
+      --pattern "arrow/dev/tasks/linux-packages/**/*.dsc" \
+      --pattern "arrow/dev/tasks/linux-packages/**/*.orig.tar.gz" \
+      --sha actions-70-travis-ubuntu-focal-arm64 \
+      --tag actions-70-travis-ubuntu-focal-arm64

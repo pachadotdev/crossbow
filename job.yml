@@ -1,0 +1,31 @@
+!Job
+target: !Target
+  head: 23d7ea5d751885ac06b8c14a5c353513f0baae02
+  email: unknown
+  branch: ARROW-11340
+  remote: https://github.com/ianmcook/arrow.git
+  version: 3.1.0.dev99
+  no_rc_version: 3.1.0.dev99
+  no_rc_semver_version: 3.1.0-dev99
+tasks:
+  wheel-windows-cp36m: !Task
+    ci: github
+    template: python-wheels/github.windows.yml
+    artifacts:
+    - pyarrow-3.1.0.dev99-cp36-cp36m-win_amd64.whl
+    params:
+      python_version: 3.6
+    branch: actions-82-github-wheel-windows-cp36m
+    commit: aa2e75899c27d50b450c99e8fec6ae79b685afdf
+  wheel-manylinux2010-cp36m: !Task
+    ci: github
+    template: python-wheels/github.linux.yml
+    artifacts:
+    - pyarrow-3.1.0.dev99-cp36-cp36m-manylinux2010_x86_64.whl
+    params:
+      python_version: 3.6
+      manylinux_version: 2010
+    branch: actions-82-github-wheel-manylinux2010-cp36m
+    commit: 1406a5f8efbe5a1ba07bfe7432bb33c55fda0c77
+params: {}
+branch: actions-82

@@ -1,0 +1,31 @@
+!Job
+target: !Target
+  head: 054ad10af31be7213e15f9701002776c66eb323b
+  email: unknown
+  branch: vcpkg-wheel-crossbow-test
+  remote: https://github.com/ianmcook/arrow.git
+  version: 3.1.0.dev175
+  no_rc_version: 3.1.0.dev175
+  no_rc_semver_version: 3.1.0-dev175
+tasks:
+  wheel-windows-cp36m: !Task
+    ci: github
+    template: python-wheels/github.windows.yml
+    artifacts:
+    - pyarrow-3.1.0.dev175-cp36-cp36m-win_amd64.whl
+    params:
+      python_version: 3.6
+    branch: actions-87-github-wheel-windows-cp36m
+    commit: 3256a40f2c7e195135bf2cd72f8004ba08ac3491
+  wheel-manylinux2010-cp36m: !Task
+    ci: github
+    template: python-wheels/github.linux.yml
+    artifacts:
+    - pyarrow-3.1.0.dev175-cp36-cp36m-manylinux2010_x86_64.whl
+    params:
+      python_version: 3.6
+      manylinux_version: 2010
+    branch: actions-87-github-wheel-manylinux2010-cp36m
+    commit: 6f480c4000ecc5b63fe01483c38469270ce2b1c0
+params: {}
+branch: actions-87

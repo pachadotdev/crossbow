@@ -1,0 +1,38 @@
+!Job
+target: !Target
+  head: 6b9c6160aabfd37b85eb324b4d79f2c9aa778fb3
+  email: unknown
+  branch: ARROW-11580
+  remote: https://github.com/ianmcook/arrow.git
+  version: 3.1.0.dev320
+  no_rc_version: 3.1.0.dev320
+  no_rc_semver_version: 3.1.0-dev320
+tasks:
+  test-build-vcpkg-win: !Task
+    ci: github
+    template: vcpkg-tests/github.windows.yml
+    artifacts: []
+    params: {}
+    branch: actions-165-github-test-build-vcpkg-win
+    commit: f5713ee3313d34f70ca9be48737095a63764a8ed
+  wheel-manylinux2010-cp36m: !Task
+    ci: github
+    template: python-wheels/github.linux.yml
+    artifacts:
+    - pyarrow-3.1.0.dev320-cp36-cp36m-manylinux2010_x86_64.whl
+    params:
+      python_version: 3.6
+      manylinux_version: 2010
+    branch: actions-165-github-wheel-manylinux2010-cp36m
+    commit: 7f77de10f88d879008f54b2de807979d085ff560
+  wheel-windows-cp36m: !Task
+    ci: github
+    template: python-wheels/github.windows.yml
+    artifacts:
+    - pyarrow-3.1.0.dev320-cp36-cp36m-win_amd64.whl
+    params:
+      python_version: 3.6
+    branch: actions-165-github-wheel-windows-cp36m
+    commit: 2d789ed9c58777278df4dacf128d52cbb1744d67
+params: {}
+branch: actions-165

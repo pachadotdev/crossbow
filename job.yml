@@ -1,0 +1,27 @@
+!Job
+target: !Target
+  head: 6eda5896c638ca1c7af577c02ec56bd802a2fe42
+  email: unknown
+  branch: ARROW-11735
+  remote: https://github.com/ianmcook/arrow.git
+  version: 3.1.0.dev331
+  no_rc_version: 3.1.0.dev331
+  no_rc_semver_version: 3.1.0-dev331
+tasks:
+  test-r-without-dataset-parquet-s3: !Task
+    ci: azure
+    template: r/azure.linux.yml
+    artifacts: []
+    params:
+      r_org: rocker
+      r_image: r-base
+      r_tag: latest
+      not_cran: 'TRUE'
+      arrow_dataset: OFF
+      arrow_parquet: OFF
+      arrow_s3: OFF
+
+    branch: actions-186-azure-test-r-without-dataset-parquet-s3
+    commit: 10d3ba8db7e24bfb477dfa6f7fcd0e976355951d
+params: {}
+branch: actions-186

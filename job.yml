@@ -1,0 +1,32 @@
+!Job
+target: !Target
+  head: 2aa007833f5f85b4a2351f4b69af9717ed3c4bf4
+  email: szucs.krisztian@gmail.com
+  branch: manylinux-arm64
+  remote: https://github.com/kszucs/arrow
+  version: 3.1.0.dev336
+  no_rc_version: 3.1.0.dev336
+  no_rc_semver_version: 3.1.0-dev336
+tasks:
+  wheel-manylinux2010-cp36m-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev336-cp36-cp36m-manylinux2010_x86_64.whl
+    params:
+      python_version: 3.6
+      manylinux_version: 2010
+    branch: build-33-github-wheel-manylinux2010-cp36m-amd64
+    commit: 29ad6b911d6426445c30d17a47ad69aeea53f310
+  wheel-manylinux2010-cp36m-arm64: !Task
+    ci: travis
+    template: python-wheels/travis.linux.arm64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev336-cp36-cp36m-manylinux2010_aarch64.whl
+    params:
+      python_version: 3.6
+      manylinux_version: 2010
+    branch: build-33-travis-wheel-manylinux2010-cp36m-arm64
+    commit: 02f62d21b0ac8f0c5c3fa63af2fcff8ead6c2b93
+params: {}
+branch: build-33

@@ -1,0 +1,30 @@
+!Job
+target: !Target
+  head: 71f3ad2f8ac79fe91fb8a8743312e1328696c5df
+  email: unknown
+  branch: ARROW-11833-csv-valgring
+  remote: https://github.com/pitrou/arrow.git
+  version: 3.1.0.dev366
+  no_rc_version: 3.1.0.dev366
+  no_rc_semver_version: 3.1.0-dev366
+tasks:
+  test-ubuntu-18.04-r-sanitizer: !Task
+    ci: azure
+    template: docker-tests/azure.linux.yml
+    artifacts: []
+    params:
+      run: ubuntu-r-sanitizer
+
+    branch: actions-225-azure-test-ubuntu-18.04-r-sanitizer
+    commit: fbb59fa407063c3249cf1677f0ce62b5099af619
+  test-conda-cpp-valgrind: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      run: conda-cpp-valgrind
+
+    branch: actions-225-github-test-conda-cpp-valgrind
+    commit: 223b47ac19039751ff7460b21bc608dc758ce44a
+params: {}
+branch: actions-225

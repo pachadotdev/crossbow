@@ -1,0 +1,142 @@
+!Job
+target: !Target
+  head: 34b45cbb01a4aa81436da448a0fe8c28ea651f04
+  email: unknown
+  branch: ARROW-11833-fast-float
+  remote: https://github.com/pitrou/arrow.git
+  version: 3.1.0.dev366
+  no_rc_version: 3.1.0.dev366
+  no_rc_semver_version: 3.1.0-dev366
+tasks:
+  test-ubuntu-20.04-cpp-17: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 20.04
+      run: -e CMAKE_ARGS=-DCMAKE_CXX_STANDARD=17 ubuntu-cpp
+
+    branch: actions-224-github-test-ubuntu-20.04-cpp-17
+    commit: b1181051ebe9936713b5c2ee716bba085d946c5c
+  test-ubuntu-16.04-cpp: !Task
+    ci: circle
+    template: docker-tests/circle.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 16.04
+      run: ubuntu-cpp
+
+    branch: actions-224-circle-test-ubuntu-16.04-cpp
+    commit: 1766684e10b9ae28a2c78213372537af3d971a52
+  test-fedora-33-cpp: !Task
+    ci: circle
+    template: docker-tests/circle.linux.yml
+    artifacts: []
+    params:
+      env:
+        FEDORA: 33
+      run: fedora-cpp
+
+    branch: actions-224-circle-test-fedora-33-cpp
+    commit: 0c7ca04631b161e211f86dc1dc6c8481a9d28abf
+  test-debian-10-cpp: !Task
+    ci: circle
+    template: docker-tests/circle.linux.yml
+    artifacts: []
+    params:
+      env:
+        DEBIAN: 10
+      run: debian-cpp
+
+    branch: actions-224-circle-test-debian-10-cpp
+    commit: 4095e74e23c45567045c02e6ae944b4ff81d0990
+  test-ubuntu-18.04-cpp-release: !Task
+    ci: circle
+    template: docker-tests/circle.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      run: -e ARROW_BUILD_TYPE=release ubuntu-cpp
+
+    branch: actions-224-circle-test-ubuntu-18.04-cpp-release
+    commit: 14337864630b8449f0381fe222f8e25955560fd7
+  test-ubuntu-20.04-cpp: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 20.04
+      run: ubuntu-cpp
+
+    branch: actions-224-github-test-ubuntu-20.04-cpp
+    commit: 4b1311cbc47419ceb4f11d576be0d19d6851eef7
+  test-ubuntu-20.04-cpp-14: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 20.04
+      run: -e CMAKE_ARGS=-DCMAKE_CXX_STANDARD=14 ubuntu-cpp
+
+    branch: actions-224-github-test-ubuntu-20.04-cpp-14
+    commit: c65df22181c7cf376d466eb4019d7ce94e12d3c2
+  test-conda-cpp: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      run: conda-cpp
+
+    branch: actions-224-github-test-conda-cpp
+    commit: 037202f112a1d220f6697544be52d0cf10d547fb
+  test-ubuntu-18.04-cpp: !Task
+    ci: circle
+    template: docker-tests/circle.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      run: ubuntu-cpp
+
+    branch: actions-224-circle-test-ubuntu-18.04-cpp
+    commit: 40cbae37e641d338661c8c5bb736e5e45556a39c
+  test-conda-cpp-valgrind: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      run: conda-cpp-valgrind
+
+    branch: actions-224-github-test-conda-cpp-valgrind
+    commit: 61fd51641b000598d0fb2bcb5881c3f0c98942c2
+  test-ubuntu-20.04-cpp-thread-sanitizer: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        CLANG_TOOLS: 11
+        UBUNTU: 20.04
+      run: ubuntu-cpp-thread-sanitizer
+
+    branch: actions-224-github-test-ubuntu-20.04-cpp-thread-sanitizer
+    commit: 8f434bd9033cb99d662e25836f4342cef223b64b
+  test-ubuntu-18.04-cpp-static: !Task
+    ci: circle
+    template: docker-tests/circle.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      run: -e ARROW_BUILD_SHARED=OFF -e ARROW_BUILD_STATIC=ON -e ARROW_TEST_LINKAGE=static
+        ubuntu-cpp
+
+    branch: actions-224-circle-test-ubuntu-18.04-cpp-static
+    commit: ce8e2461a3a4f8b843938b99f39854f2a85061b9
+params: {}
+branch: actions-224

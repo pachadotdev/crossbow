@@ -1,0 +1,34 @@
+!Job
+target: !Target
+  head: 8e511e455a99e261bfb6924b6d32195b2ac486d3
+  email: szucs.krisztian@gmail.com
+  branch: mac-wheel-vcpkg
+  remote: https://github.com/kszucs/arrow
+  version: 3.1.0.dev404
+  no_rc_version: 3.1.0.dev404
+  no_rc_semver_version: 3.1.0-dev404
+tasks:
+  wheel-osx-high-sierra-cp36m: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev404-cp36-cp36m-macosx_10_13_x86_64.whl
+    params:
+      python_version: 3.6
+      macos_deployment_target: 10.13
+      arrow_s3: ON
+    branch: build-113-github-wheel-osx-high-sierra-cp36m
+    commit: 1f3e22e8c9718b3dd6a4383bf515baab79987b02
+  wheel-osx-mavericks-cp36m: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev404-cp36-cp36m-macosx_10_9_x86_64.whl
+    params:
+      python_version: 3.6
+      macos_deployment_target: 10.9
+      arrow_s3: OFF
+    branch: build-113-github-wheel-osx-mavericks-cp36m
+    commit: ce96b3307d217f1a83ced648dbffd6ef667331b5
+params: {}
+branch: build-113

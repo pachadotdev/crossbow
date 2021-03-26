@@ -1,0 +1,30 @@
+!Job
+target: !Target
+  head: dcec3713a660f3d37934a87172bb4b90d398e40d
+  email: unknown
+  branch: r-without-strings
+  remote: https://github.com/nealrichardson/arrow.git
+  version: 3.1.0.dev449
+  no_rc_version: 3.1.0.dev449
+  no_rc_semver_version: 3.1.0-dev449
+tasks:
+  test-r-minimal-build: !Task
+    ci: azure
+    template: r/azure.linux.yml
+    artifacts: []
+    params:
+      r_org: rocker
+      r_image: r-base
+      r_tag: latest
+      not_cran: 'TRUE'
+      arrow_dataset: OFF
+      arrow_parquet: OFF
+      arrow_s3: OFF
+      arrow_with_re2: OFF
+      arrow_with_utf8proc: OFF
+      libarrow_minimal: 'TRUE'
+
+    branch: actions-234-azure-test-r-minimal-build
+    commit: ed1f6384ec933a1100aaab5e7a87a34af97b38be
+params: {}
+branch: actions-234

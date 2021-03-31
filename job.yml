@@ -1,0 +1,529 @@
+!Job
+target: !Target
+  head: abf733cbb5d104277c475c6a7c70695808da1040
+  email: antoine@python.org
+  branch: ARROW-12068-remove-distutils
+  remote: https://github.com/pitrou/arrow.git
+  version: 3.1.0.dev493
+  no_rc_version: 3.1.0.dev493
+  no_rc_semver_version: 3.1.0-dev493
+tasks:
+  wheel-manylinux2014-cp38-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp38-cp38-manylinux2014_x86_64.whl
+    params:
+      python_version: 3.8
+      manylinux_version: 2014
+    branch: build-122-github-wheel-manylinux2014-cp38-amd64
+    commit: 9518ba6ab5fd701ba81f581911164848e9139834
+  wheel-manylinux2010-cp36m-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp36-cp36m-manylinux2010_x86_64.whl
+    params:
+      python_version: 3.6
+      manylinux_version: 2010
+    branch: build-122-github-wheel-manylinux2010-cp36m-amd64
+    commit: dbef41925f23770b9132b3e87a2cc79d7af8d39d
+  wheel-osx-high-sierra-cp36m: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp36-cp36m-macosx_10_13_x86_64.whl
+    params:
+      python_version: 3.6
+      macos_deployment_target: 10.13
+      arrow_s3: ON
+    branch: build-122-github-wheel-osx-high-sierra-cp36m
+    commit: 9bebd21d6a16fcbd5f1f011c7de51a221450d186
+  wheel-osx-high-sierra-cp37m: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp37-cp37m-macosx_10_13_x86_64.whl
+    params:
+      python_version: 3.7
+      macos_deployment_target: 10.13
+      arrow_s3: ON
+    branch: build-122-github-wheel-osx-high-sierra-cp37m
+    commit: 0c0d649460f774ea335d12aa32b8e765b9cd59d2
+  wheel-manylinux2014-cp38-arm64: !Task
+    ci: travis
+    template: python-wheels/travis.linux.arm64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp38-cp38-manylinux2014_aarch64.whl
+    params:
+      python_version: 3.8
+      manylinux_version: 2014
+    branch: build-122-travis-wheel-manylinux2014-cp38-arm64
+    commit: a1e132bcd208fd1fb5734ac5205af1f83ddaf9c9
+  wheel-windows-cp36m: !Task
+    ci: github
+    template: python-wheels/github.windows.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp36-cp36m-win_amd64.whl
+    params:
+      python_version: 3.6
+    branch: build-122-github-wheel-windows-cp36m
+    commit: ca5eaa39e14ec51234f045f1e764cfa568e6aa36
+  test-conda-python-3.7-spark-branch-3.0: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        SPARK: branch-3.0
+        TEST_PYARROW_ONLY: 'true'
+      # use the branch-3.0 of spark, so prevent reusing any layers
+      run: --no-leaf-cache conda-python-spark
+
+    branch: build-122-github-test-conda-python-3.7-spark-branch-3.0
+    commit: db36f30f94039a1e670a42decb5e277245f7341e
+  wheel-manylinux2014-cp37m-arm64: !Task
+    ci: travis
+    template: python-wheels/travis.linux.arm64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp37-cp37m-manylinux2014_aarch64.whl
+    params:
+      python_version: 3.7
+      manylinux_version: 2014
+    branch: build-122-travis-wheel-manylinux2014-cp37m-arm64
+    commit: 92aa5381c19b1b86ba13302493446bdabcb48ef0
+  wheel-osx-high-sierra-cp39: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp39-cp39-macosx_10_13_x86_64.whl
+    params:
+      python_version: 3.9
+      macos_deployment_target: 10.13
+      arrow_s3: ON
+    branch: build-122-github-wheel-osx-high-sierra-cp39
+    commit: 416453390f538902013c6f9a103d436a28b7d456
+  test-conda-python-3.7: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+      run: conda-python
+
+    branch: build-122-github-test-conda-python-3.7
+    commit: e535fe33fac7684e40ebddc72566705d092c6139
+  test-conda-python-3.8-pandas-nightly: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        PANDAS: nightly
+        NUMPY: nightly
+      run: --no-leaf-cache conda-python-pandas
+
+    branch: build-122-github-test-conda-python-3.8-pandas-nightly
+    commit: b11ef13cee95fdbf1b43d453facdd25f4af83d71
+  test-conda-python-3.7-dask-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        DASK: latest
+      # use the latest dask release, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-dask
+
+    branch: build-122-github-test-conda-python-3.7-dask-latest
+    commit: ab268e38490c18ab3c861f5db917ff727e9ce386
+  test-conda-python-3.7-kartothek-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        KARTOTHEK: master
+      # use the master branch of kartothek, so prevent reusing any layers
+      run: --no-leaf-cache conda-python-kartothek
+
+    branch: build-122-github-test-conda-python-3.7-kartothek-master
+    commit: c00f86801200c7a928c39aed285595e8bd9d71c5
+  test-conda-python-3.8: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+      run: conda-python
+
+    branch: build-122-github-test-conda-python-3.8
+    commit: a4987970751fbad00ca7c8776d214508e6002d56
+  wheel-manylinux2014-cp36m-arm64: !Task
+    ci: travis
+    template: python-wheels/travis.linux.arm64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp36-cp36m-manylinux2014_aarch64.whl
+    params:
+      python_version: 3.6
+      manylinux_version: 2014
+    branch: build-122-travis-wheel-manylinux2014-cp36m-arm64
+    commit: ab6fa3cc3e41a1d030b450741b3c0b263d3fc71c
+  test-conda-python-3.7-hdfs-3.2: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        HDFS: 3.2.1
+      run: conda-python-hdfs
+
+    branch: build-122-github-test-conda-python-3.7-hdfs-3.2
+    commit: 861411734205823f0e409a55ed7c4e50637fc88a
+  test-conda-python-3.7-turbodbc-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        TURBODBC: latest
+      # use the latest turbodbc release, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-turbodbc
+
+    branch: build-122-github-test-conda-python-3.7-turbodbc-latest
+    commit: c2a22efe656e3daedaf87532020a2ae0da619e7d
+  wheel-osx-high-sierra-cp38: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp38-cp38-macosx_10_13_x86_64.whl
+    params:
+      python_version: 3.8
+      macos_deployment_target: 10.13
+      arrow_s3: ON
+    branch: build-122-github-wheel-osx-high-sierra-cp38
+    commit: 9d006c5fb37554da20acb69675ee6c84a70f2606
+  test-fedora-33-python-3: !Task
+    ci: azure
+    template: docker-tests/azure.linux.yml
+    artifacts: []
+    params:
+      env:
+        FEDORA: 33
+      run: fedora-python
+
+    branch: build-122-azure-test-fedora-33-python-3
+    commit: 9bfa9410dd1b4a2da25a37670099287436c4bb70
+  wheel-osx-mavericks-cp36m: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp36-cp36m-macosx_10_9_x86_64.whl
+    params:
+      python_version: 3.6
+      macos_deployment_target: 10.9
+      arrow_s3: OFF
+    branch: build-122-github-wheel-osx-mavericks-cp36m
+    commit: 6f7bf36dcfca5382429e738a8dc0ff8cc8c48893
+  wheel-osx-mavericks-cp38: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp38-cp38-macosx_10_9_x86_64.whl
+    params:
+      python_version: 3.8
+      macos_deployment_target: 10.9
+      arrow_s3: OFF
+    branch: build-122-github-wheel-osx-mavericks-cp38
+    commit: 83152091fd6165a0cd7230eaec40378291f3083b
+  wheel-manylinux2014-cp36m-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp36-cp36m-manylinux2014_x86_64.whl
+    params:
+      python_version: 3.6
+      manylinux_version: 2014
+    branch: build-122-github-wheel-manylinux2014-cp36m-amd64
+    commit: 67019dbfe3ff85bb7b30c87f87dbde5766b1cfe2
+  wheel-manylinux2014-cp39-arm64: !Task
+    ci: travis
+    template: python-wheels/travis.linux.arm64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp39-cp39-manylinux2014_aarch64.whl
+    params:
+      python_version: 3.9
+      manylinux_version: 2014
+    branch: build-122-travis-wheel-manylinux2014-cp39-arm64
+    commit: 3f2c20f1a126fc87c554a063f2d821cd5969443a
+  test-conda-python-3.7-pandas-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        PANDAS: master
+      # use the master branch of pandas, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-pandas
+
+    branch: build-122-github-test-conda-python-3.7-pandas-master
+    commit: f9e3ff4d0b9c03bd312f24c0bda66fc9ff209c59
+  wheel-windows-cp38: !Task
+    ci: github
+    template: python-wheels/github.windows.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp38-cp38-win_amd64.whl
+    params:
+      python_version: 3.8
+    branch: build-122-github-wheel-windows-cp38
+    commit: 1754bb3b74a0e109a18199da089c85c1f3f983a2
+  test-conda-python-3.6-pandas-0.23: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.6
+        PANDAS: 0.23
+      run: conda-python-pandas
+
+    branch: build-122-github-test-conda-python-3.6-pandas-0.23
+    commit: 942f0b45d5d01a48974ec8cd6c15fea54a2e36c5
+  wheel-osx-mavericks-cp39: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp39-cp39-macosx_10_9_x86_64.whl
+    params:
+      python_version: 3.9
+      macos_deployment_target: 10.9
+      arrow_s3: OFF
+    branch: build-122-github-wheel-osx-mavericks-cp39
+    commit: eb663b07ccbaadfdbda179836067f356a3a72d6b
+  wheel-osx-mavericks-cp37m: !Task
+    ci: github
+    template: python-wheels/github.osx.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp37-cp37m-macosx_10_9_x86_64.whl
+    params:
+      python_version: 3.7
+      macos_deployment_target: 10.9
+      arrow_s3: OFF
+    branch: build-122-github-wheel-osx-mavericks-cp37m
+    commit: d810470f973785ffa4ee13996ab5642774187f46
+  wheel-manylinux2010-cp39-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp39-cp39-manylinux2010_x86_64.whl
+    params:
+      python_version: 3.9
+      manylinux_version: 2010
+    branch: build-122-github-wheel-manylinux2010-cp39-amd64
+    commit: f942329e162df9daf1b4f6ca21584dfb4684705d
+  test-debian-10-python-3: !Task
+    ci: azure
+    template: docker-tests/azure.linux.yml
+    artifacts: []
+    params:
+      env:
+        DEBIAN: 10
+      run: debian-python
+
+    branch: build-122-azure-test-debian-10-python-3
+    commit: c86be2ce332c36daa96a644087b8fa252114d27b
+  wheel-manylinux2010-cp37m-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp37-cp37m-manylinux2010_x86_64.whl
+    params:
+      python_version: 3.7
+      manylinux_version: 2010
+    branch: build-122-github-wheel-manylinux2010-cp37m-amd64
+    commit: 1198dab5cafb0e70c0937a7c4ebcefc8af017b7f
+  test-conda-python-3.8-dask-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        DASK: master
+      # use the master branch of dask, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-dask
+
+    branch: build-122-github-test-conda-python-3.8-dask-master
+    commit: 4b4eca12602a0c45f2352fb97f690eba5eb0d8b8
+  wheel-manylinux2010-cp38-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp38-cp38-manylinux2010_x86_64.whl
+    params:
+      python_version: 3.8
+      manylinux_version: 2010
+    branch: build-122-github-wheel-manylinux2010-cp38-amd64
+    commit: 349a70e34fb82b7ad3f392bacc2724cd7137617d
+  wheel-manylinux2014-cp37m-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp37-cp37m-manylinux2014_x86_64.whl
+    params:
+      python_version: 3.7
+      manylinux_version: 2014
+    branch: build-122-github-wheel-manylinux2014-cp37m-amd64
+    commit: 38a98f55295656453aaba547c2b65a7645041d8b
+  test-conda-python-3.8-hypothesis: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        HYPOTHESIS_PROFILE: ci
+        PYARROW_TEST_HYPOTHESIS: ON
+        PYTHON: 3.8
+        # limit to execute hypothesis tests only
+        PYTEST_ARGS: -m hypothesis
+      run: conda-python-pandas
+
+    branch: build-122-github-test-conda-python-3.8-hypothesis
+    commit: 5e7ad4d239ed0ad91a070544eb6022df419f3e63
+  test-conda-python-3.8-pandas-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        PANDAS: latest
+      # use the latest pandas release, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-pandas
+
+    branch: build-122-github-test-conda-python-3.8-pandas-latest
+    commit: 91926a60e5115ea244d7772d366d6c674e4d80f9
+  test-conda-python-3.8-jpype: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+      run: conda-python-jpype
+
+    branch: build-122-github-test-conda-python-3.8-jpype
+    commit: a9737a608facbd81a494731cf1fbf01555597690
+  test-conda-python-3.7-turbodbc-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        TURBODBC: master
+      # use the master branch of dask, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-turbodbc
+
+    branch: build-122-github-test-conda-python-3.7-turbodbc-master
+    commit: 136e290476d81077bd2ce3f140cecc69655848b9
+  test-conda-python-3.8-spark-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        SPARK: master
+      # use the master branch of spark, so prevent reusing any layers
+      run: --no-leaf-cache conda-python-spark
+
+  # Remove the "skipped-" prefix in ARROW-8475
+    branch: build-122-github-test-conda-python-3.8-spark-master
+    commit: 6fc8f676a34a90db446659b48060d2664202428e
+  wheel-manylinux2014-cp39-amd64: !Task
+    ci: github
+    template: python-wheels/github.linux.amd64.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp39-cp39-manylinux2014_x86_64.whl
+    params:
+      python_version: 3.9
+      manylinux_version: 2014
+    branch: build-122-github-wheel-manylinux2014-cp39-amd64
+    commit: 86032471de4ea5ac4fde5803a2620d200d17c283
+  test-conda-python-3.7-kartothek-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        KARTOTHEK: latest
+      run: --no-leaf-cache conda-python-kartothek
+
+    branch: build-122-github-test-conda-python-3.7-kartothek-latest
+    commit: 67beab9f7bf4774fac5c79a31ef2c0fc8ade3636
+  wheel-windows-cp37m: !Task
+    ci: github
+    template: python-wheels/github.windows.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp37-cp37m-win_amd64.whl
+    params:
+      python_version: 3.7
+    branch: build-122-github-wheel-windows-cp37m
+    commit: f18aac2cd6cb39efaed0f634472a93fbe1bf8a92
+  test-ubuntu-18.04-python-3: !Task
+    ci: azure
+    template: docker-tests/azure.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      run: ubuntu-python
+
+    branch: build-122-azure-test-ubuntu-18.04-python-3
+    commit: c11f6dd2e4c636b4066a96dc45d64cfcad0fc6b8
+  test-conda-python-3.7-pandas-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        PANDAS: latest
+      # use the latest pandas release, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-pandas
+
+    branch: build-122-github-test-conda-python-3.7-pandas-latest
+    commit: e226322db3991f4eaad71740642e90696e8ae005
+  test-conda-python-3.6: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.6
+      run: conda-python
+
+    branch: build-122-github-test-conda-python-3.6
+    commit: 3ae3c768a128a08fffd064605cb6bb284a99a3d6
+  wheel-windows-cp39: !Task
+    ci: github
+    template: python-wheels/github.windows.yml
+    artifacts:
+    - pyarrow-3.1.0.dev493-cp39-cp39-win_amd64.whl
+    params:
+      python_version: 3.9
+    branch: build-122-github-wheel-windows-cp39
+    commit: 700b166e753db3595f0770e431987f6d5c0a6777
+params: {}
+branch: build-122

@@ -1,0 +1,58 @@
+!Job
+target: !Target
+  head: c85c6eec1ace47133196b404ce9f19a5b7c0250e
+  email: unknown
+  branch: ARROW-12178
+  remote: https://github.com/kszucs/arrow.git
+  version: 3.1.0.dev504
+  no_rc_version: 3.1.0.dev504
+  no_rc_semver_version: 3.1.0-dev504
+tasks:
+  test-ubuntu-18.04-docs: !Task
+    ci: azure
+    template: docker-tests/azure.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      run: ubuntu-docs
+
+  ############################## vcpkg tests ##################################
+
+    branch: actions-254-azure-test-ubuntu-18.04-docs
+    commit: 7df66f81f8b29c513ca8c15248313be4fcbffc44
+  test-ubuntu-18.04-cpp: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      run: ubuntu-cpp
+
+    branch: actions-254-github-test-ubuntu-18.04-cpp
+    commit: 1ba743f19e937511624ab3f29cd6782c3d7445d9
+  test-ubuntu-20.04-cpp: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 20.04
+      run: ubuntu-cpp
+
+    branch: actions-254-github-test-ubuntu-20.04-cpp
+    commit: 93961c98c652f5f5be67fe7a39acd8538001f328
+  test-ubuntu-18.04-python-3: !Task
+    ci: azure
+    template: docker-tests/azure.linux.yml
+    artifacts: []
+    params:
+      env:
+        UBUNTU: 18.04
+      run: ubuntu-python
+
+    branch: actions-254-azure-test-ubuntu-18.04-python-3
+    commit: 0302aca489561139005b0353785e48c3b1dbadda
+params: {}
+branch: actions-254

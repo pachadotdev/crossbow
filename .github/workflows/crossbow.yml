@@ -1,0 +1,71 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+# NOTE: must set "Crossbow" as name to have the badge links working in the
+# github comment reports!
+name: Crossbow
+
+on:
+  push:
+    branches:
+      - "*-github-*"
+
+jobs:
+  autobrew:
+    name: "install from the devdoc instructions"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macOS-latest, ubuntu-20.04]
+
+    steps:
+      - name: Checkout Arrow
+        run: |
+          git clone --no-checkout https://github.com/jonkeane/arrow.git arrow
+          git -C arrow fetch -t https://github.com/jonkeane/arrow.git ARROW-12017-dev-docs
+          git -C arrow checkout FETCH_HEAD
+          git -C arrow submodule update --init --recursive
+      - uses: r-lib/actions/setup-r@v1
+      - uses: r-lib/actions/setup-pandoc@v1
+      - name: Install knitr, rmarkdown
+        run: |
+          install.packages(c("rmarkdown", "knitr", "sessioninfo"))
+        shell: Rscript {0}
+      - name: Session info
+        run: |
+          options(width = 100)
+          pkgs <- installed.packages()[, "Package"]
+          sessioninfo::session_info(pkgs, include_base = TRUE)
+        shell: Rscript {0}
+      - name: Install from the devdocs
+        env:
+          LIBARROW_BINARY: FALSE
+          ARROW_R_DEV: TRUE
+          RUN_DEVDOCS: TRUE
+          DEVDOCS_MACOS: ${{contains(matrix.os, 'macOS')}}
+          DEVDOCS_UBUNTU: ${{contains(matrix.os, 'ubuntu')}}
+        run: |
+          # We knit three directories above to simulate being in the parent of the arrow directory.
+          rmarkdown::render("arrow/r/vignettes/dev-docs.Rmd", knit_root_dir = "../../..")
+        shell: Rscript {0}
+      - name: Save the vignette output
+        uses: actions/upload-artifact@v2
+        with:
+          name: dev-docs-${{ matrix.os }}
+          path: arrow/r/vignettes/dev-docs.html
+        if: always()

@@ -1,0 +1,39 @@
+!Job
+target: !Target
+  head: 191aa2f9131fdac04bc3181dd9fb538da41fd84f
+  email: unknown
+  branch: ARROW-12141
+  remote: https://github.com/ianmcook/arrow.git
+  version: 3.1.0.dev540
+  no_rc_version: 3.1.0.dev540
+  no_rc_semver_version: 3.1.0-dev540
+tasks:
+  test-r-versions: !Task
+    ci: github
+    template: r/github.linux.versions.yml
+    artifacts: []
+    params:
+      MATRIX: ${{ matrix.r_version }}
+
+    branch: actions-278-github-test-r-versions
+    commit: 2592226c8993d71503cb74f21d04132e456c062c
+  test-r-minimal-build: !Task
+    ci: azure
+    template: r/azure.linux.yml
+    artifacts: []
+    params:
+      r_org: rocker
+      r_image: r-base
+      r_tag: latest
+      not_cran: 'TRUE'
+      arrow_dataset: OFF
+      arrow_parquet: OFF
+      arrow_s3: OFF
+      arrow_with_re2: OFF
+      arrow_with_utf8proc: OFF
+      libarrow_minimal: 'TRUE'
+
+    branch: actions-278-azure-test-r-minimal-build
+    commit: cc7e367cdc390e761885f3b54e216f06df2e2310
+params: {}
+branch: actions-278

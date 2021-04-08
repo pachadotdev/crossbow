@@ -1,0 +1,27 @@
+!Job
+target: !Target
+  head: bb88a58989b3f093d625fc2e1adec60bad80b91c
+  email: unknown
+  branch: nix-install-debug
+  remote: https://github.com/nealrichardson/arrow.git
+  version: 3.1.0.dev581
+  no_rc_version: 3.1.0.dev581
+  no_rc_semver_version: 3.1.0-dev581
+tasks:
+  test-r-without-arrow: !Task
+    ci: azure
+    template: r/azure.linux.yml
+    artifacts: []
+    params:
+      r_org: rocker
+      r_image: r-base
+      r_tag: latest
+      libarrow_download: 'FALSE'
+      libarrow_build: 'FALSE'
+      with_arrow: 'FALSE'
+      not_cran: 'FALSE'
+
+    branch: actions-300-azure-test-r-without-arrow
+    commit: bbd1aabf3a819bcd85ce840dc89c831acf1fb2df
+params: {}
+branch: actions-300

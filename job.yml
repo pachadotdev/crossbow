@@ -1,0 +1,24 @@
+!Job
+target: !Target
+  head: e99e70d97e8d37d7d026987cccef48fe19902eac
+  email: antoine@python.org
+  branch: master
+  remote: https://github.com/apache/arrow.git
+  version: 3.1.0.dev639
+  no_rc_version: 3.1.0.dev639
+  no_rc_semver_version: 3.1.0-dev639
+tasks:
+  test-ubuntu-20.04-cpp-thread-sanitizer: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        CLANG_TOOLS: 11
+        UBUNTU: 20.04
+      run: ubuntu-cpp-thread-sanitizer
+
+    branch: build-226-github-test-ubuntu-20.04-cpp-thread-sanitizer
+    commit: 2e8f3db3748de965d2cb2fad33cdc7b7d6fc7690
+params: {}
+branch: build-226

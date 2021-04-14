@@ -1,0 +1,204 @@
+!Job
+target: !Target
+  head: c935477d955351ae73312395204eb42501f8da8d
+  email: unknown
+  branch: ARROW-12057-pandas-block-classes
+  remote: https://github.com/jorisvandenbossche/arrow.git
+  version: 3.1.0.dev624
+  no_rc_version: 3.1.0.dev624
+  no_rc_semver_version: 3.1.0-dev624
+tasks:
+  test-conda-python-3.8-dask-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        DASK: master
+      # use the master branch of dask, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-dask
+
+    branch: actions-318-github-test-conda-python-3.8-dask-master
+    commit: ddfeae0bf82c46e42f730d516ee36b258ec19f73
+  test-conda-python-3.7-pandas-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        PANDAS: latest
+      # use the latest pandas release, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-pandas
+
+    branch: actions-318-github-test-conda-python-3.7-pandas-latest
+    commit: bab22e8e0c04bdcbc4e62ec56d5312e0e72c174d
+  test-conda-python-3.7-turbodbc-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        TURBODBC: latest
+      # use the latest turbodbc release, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-turbodbc
+
+    branch: actions-318-github-test-conda-python-3.7-turbodbc-latest
+    commit: 4646566498620be37fd9a1172061d476170982dd
+  test-conda-python-3.7-kartothek-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        KARTOTHEK: master
+      # use the master branch of kartothek, so prevent reusing any layers
+      run: --no-leaf-cache conda-python-kartothek
+
+    branch: actions-318-github-test-conda-python-3.7-kartothek-master
+    commit: 03821538a730a69ea7a6a0cc997a01233c9d0b30
+  test-conda-python-3.8-pandas-nightly: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        PANDAS: nightly
+        NUMPY: nightly
+      run: --no-leaf-cache conda-python-pandas
+
+    branch: actions-318-github-test-conda-python-3.8-pandas-nightly
+    commit: 81740606cdd8b0aa94bd70a9c7eb577edc7a7161
+  test-conda-python-3.8-jpype: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+      run: conda-python-jpype
+
+    branch: actions-318-github-test-conda-python-3.8-jpype
+    commit: b96906bc994a1ad943290c7d86880c32fe9e2d27
+  test-conda-python-3.7-turbodbc-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        TURBODBC: master
+      # use the master branch of dask, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-turbodbc
+
+    branch: actions-318-github-test-conda-python-3.7-turbodbc-master
+    commit: 2254080c9804eaa77d38ee7c9aac80a74a8efa35
+  test-conda-python-3.8-spark-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        SPARK: master
+      # use the master branch of spark, so prevent reusing any layers
+      run: --no-leaf-cache conda-python-spark
+
+  # Remove the "skipped-" prefix in ARROW-8475
+    branch: actions-318-github-test-conda-python-3.8-spark-master
+    commit: a4adc6cf96be08ba9ee6e1855a0a062ad3e519ba
+  test-conda-python-3.7-kartothek-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        KARTOTHEK: latest
+      run: --no-leaf-cache conda-python-kartothek
+
+    branch: actions-318-github-test-conda-python-3.7-kartothek-latest
+    commit: a4cf5e528d347c2b41fe2fc5b80150c7224acd35
+  test-conda-python-3.7-pandas-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        PANDAS: master
+      # use the master branch of pandas, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-pandas
+
+    branch: actions-318-github-test-conda-python-3.7-pandas-master
+    commit: 76486c16c61fbd2493c9207152277c3151590c7e
+  test-conda-python-3.6-pandas-0.23: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.6
+        PANDAS: 0.23
+      run: conda-python-pandas
+
+    branch: actions-318-github-test-conda-python-3.6-pandas-0.23
+    commit: 2ddebb12ddbe1661b8cb63be7ac2a2ce289141e9
+  test-conda-python-3.7-dask-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        DASK: latest
+      # use the latest dask release, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-dask
+
+    branch: actions-318-github-test-conda-python-3.7-dask-latest
+    commit: 8d8aeca6fc1b933897a07874bc83bf8bc55b2d9f
+  test-conda-python-3.7-spark-branch-3.0: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        SPARK: branch-3.0
+        TEST_PYARROW_ONLY: 'true'
+      # use the branch-3.0 of spark, so prevent reusing any layers
+      run: --no-leaf-cache conda-python-spark
+
+    branch: actions-318-github-test-conda-python-3.7-spark-branch-3.0
+    commit: 7727f51b56868223ca8e6579d2061cb36c119061
+  test-conda-python-3.8-pandas-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        PANDAS: latest
+      # use the latest pandas release, so prevent reusing any cached layers
+      run: --no-leaf-cache conda-python-pandas
+
+    branch: actions-318-github-test-conda-python-3.8-pandas-latest
+    commit: 9be41ff4bfbcd793e4b3f370accb847047ef7bca
+  test-conda-python-3.7-hdfs-3.2: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        HDFS: 3.2.1
+      run: conda-python-hdfs
+
+    branch: actions-318-github-test-conda-python-3.7-hdfs-3.2
+    commit: e2dac627ff83c67b1aa99ac1cd3ca4a0b8ee3fee
+params: {}
+branch: actions-318

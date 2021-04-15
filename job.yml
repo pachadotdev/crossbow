@@ -1,0 +1,29 @@
+!Job
+target: !Target
+  head: 0be00e001f1e1fa7b5ab001e5e5e8b2bf285d9cc
+  email: szucs.krisztian@gmail.com
+  branch: ARROW-12401-kszucs
+  remote: https://github.com/kszucs/arrow
+  version: 3.1.0.dev666
+  no_rc_version: 3.1.0.dev666
+  no_rc_semver_version: 3.1.0-dev666
+tasks:
+  test-r-minimal-build: !Task
+    ci: azure
+    template: r/azure.linux.yml
+    artifacts: []
+    params:
+      r_org: rocker
+      r_image: r-base
+      r_tag: latest
+      arrow_dataset: OFF
+      arrow_parquet: OFF
+      arrow_s3: OFF
+      arrow_with_re2: OFF
+      arrow_with_utf8proc: OFF
+      libarrow_minimal: 'TRUE'
+
+    branch: build-236-azure-test-r-minimal-build
+    commit: 8f2bfb7a3f0d9c245f0c566d461c434583226468
+params: {}
+branch: build-236

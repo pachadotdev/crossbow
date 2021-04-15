@@ -1,0 +1,42 @@
+!Job
+target: !Target
+  head: eaf4f7083e893c4a122d5907de9ab49e0a4322bb
+  email: unknown
+  branch: release-4.0.0-rc0
+  remote: https://github.com/kszucs/arrow.git
+  version: 4.1.0.dev4
+  no_rc_version: 4.1.0.dev4
+  no_rc_semver_version: 4.1.0-dev4
+tasks:
+  verify-rc-source-linux-rust: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        INSTALL_NODE: 0
+        TEST_DEFAULT: 0
+        TEST_RUST: 1
+      artifact: source
+
+
+
+    branch: actions-325-github-verify-rc-source-linux-rust
+    commit: ff3d1b746982a2f0ec6c3216ba2a435ca4316be9
+  verify-rc-source-macos-rust: !Task
+    ci: github
+    template: verify-rc/github.macos.yml
+    artifacts: []
+    params:
+      env:
+        INSTALL_NODE: 0
+        TEST_DEFAULT: 0
+        TEST_RUST: 1
+      artifact: source
+
+
+
+    branch: actions-325-github-verify-rc-source-macos-rust
+    commit: 79e625f627cc1dbcd9a51ba0030423a52b844853
+params: {}
+branch: actions-325

@@ -1,0 +1,27 @@
+!Job
+target: !Target
+  head: 08b5fe86d02063ca6747ea6cb1e7cbd203ddbb9b
+  email: szucs.krisztian@gmail.com
+  branch: release-4.0.0-rc0
+  remote: https://github.com/kszucs/arrow
+  version: 4.1.0.dev8
+  no_rc_version: 4.1.0.dev8
+  no_rc_semver_version: 4.1.0-dev8
+tasks:
+  verify-rc-binaries-apt: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_APT: 1
+      artifact: binaries
+
+
+    branch: build-247-github-verify-rc-binaries-apt
+    commit: 9ff663ee868e69e8c35d16ae5fe7398311258f54
+params:
+  release: 4.0.0
+  rc: '0'
+branch: build-247

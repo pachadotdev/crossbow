@@ -1,0 +1,48 @@
+!Job
+target: !Target
+  head: 9f0082d27366f2d1985d0b5abbef7f2f07fd7e7e
+  email: unknown
+  branch: release-4.0.0-rc1
+  remote: https://github.com/kszucs/arrow.git
+  version: 4.1.0.devNone
+  no_rc_version: 4.1.0.devNone
+  no_rc_semver_version: 4.1.0.devNone
+tasks:
+  verify-rc-wheels-macos: !Task
+    ci: github
+    template: verify-rc/github.macos.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+      artifact: wheels
+
+
+    branch: actions-334-github-verify-rc-wheels-macos
+    commit: acbca883c9fcfa942b8021719a90e070e4466a7c
+  verify-rc-wheels-windows: !Task
+    ci: github
+    template: verify-rc/github.win.yml
+    artifacts: []
+    params:
+      script: verify-release-candidate-wheels.bat
+
+
+    branch: actions-334-github-verify-rc-wheels-windows
+    commit: 1e12cf6cd26643784132f9db9486a021288cbaf1
+  verify-rc-wheels-linux: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+      artifact: wheels
+
+
+    branch: actions-334-github-verify-rc-wheels-linux
+    commit: 5f333d96c5dfbfa73b85b333108886cf0a599379
+params:
+  release: 4.0.0
+  rc: '1'
+branch: actions-334

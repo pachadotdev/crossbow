@@ -1,0 +1,83 @@
+!Job
+target: !Target
+  head: f959141ece4d660bce5f7fa545befc0116a7db79
+  email: unknown
+  branch: release-4.0.0-rc3
+  remote: https://github.com/kszucs/arrow.git
+  version: 4.1.0.devNone
+  no_rc_version: 4.1.0.devNone
+  no_rc_semver_version: 4.1.0.devNone
+tasks:
+  verify-rc-wheels-macos: !Task
+    ci: github
+    template: verify-rc/github.macos.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+      artifact: wheels
+
+
+    branch: actions-340-github-verify-rc-wheels-macos
+    commit: 5c975e7aa641e47a13d58cd229931cbf45ac8f91
+  verify-rc-binaries-apt: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_APT: 1
+      artifact: binaries
+
+
+    branch: actions-340-github-verify-rc-binaries-apt
+    commit: e643ce7dcb09fe69dbf229c094a828c6086d67de
+  verify-rc-wheels-windows: !Task
+    ci: github
+    template: verify-rc/github.win.yml
+    artifacts: []
+    params:
+      script: verify-release-candidate-wheels.bat
+
+
+    branch: actions-340-github-verify-rc-wheels-windows
+    commit: a4a41e989e04eb8d73b256cb3b2337e2392311cf
+  verify-rc-wheels-linux: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+      artifact: wheels
+
+
+    branch: actions-340-github-verify-rc-wheels-linux
+    commit: e7fb51f6439491caff74ba1cb14148884523d113
+  verify-rc-binaries-binary: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_BINARY: 1
+      artifact: binaries
+    branch: actions-340-github-verify-rc-binaries-binary
+    commit: 418c8bd75cae43fdf9ccb94a1f083ac954797fb5
+  verify-rc-binaries-yum: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_YUM: 1
+      artifact: binaries
+    branch: actions-340-github-verify-rc-binaries-yum
+    commit: 5216daa4a42ce0024a3fdcc927c8006d604e8f01
+params:
+  release: 4.0.0
+  rc: '3'
+branch: actions-340

@@ -1,0 +1,49 @@
+!Job
+target: !Target
+  head: f959141ece4d660bce5f7fa545befc0116a7db79
+  email: unknown
+  branch: release-4.0.0-rc3
+  remote: https://github.com/kszucs/arrow.git
+  version: 4.1.0.devNone
+  no_rc_version: 4.1.0.devNone
+  no_rc_semver_version: 4.1.0.devNone
+tasks:
+  verify-rc-binaries-apt: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_APT: 1
+      artifact: binaries
+
+
+    branch: actions-344-github-verify-rc-binaries-apt
+    commit: cfd124be2c58cdc3babdf4940aec3dbb6d372c01
+  verify-rc-binaries-binary: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_BINARY: 1
+      artifact: binaries
+    branch: actions-344-github-verify-rc-binaries-binary
+    commit: 5f4cd30097bf09b4ce9162ae3a1016245943e1d2
+  verify-rc-binaries-yum: !Task
+    ci: github
+    template: verify-rc/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        TEST_DEFAULT: 0
+        TEST_YUM: 1
+      artifact: binaries
+    branch: actions-344-github-verify-rc-binaries-yum
+    commit: 98f4da1161512dcd1c2706c4fb730a6e477ead0c
+params:
+  release: 4.0.0
+  rc: '3'
+branch: actions-344

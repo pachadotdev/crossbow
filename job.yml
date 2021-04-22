@@ -1,0 +1,36 @@
+!Job
+target: !Target
+  head: 622c6b6ee240ae3ff6b2051443fb615ddd3285d9
+  email: unknown
+  branch: ARROW-12508-bug_with_as_vector
+  remote: https://github.com/thisisnic/arrow.git
+  version: 3.1.0.dev724
+  no_rc_version: 3.1.0.dev724
+  no_rc_semver_version: 3.1.0-dev724
+tasks:
+  test-r-versions: !Task
+    ci: github
+    template: r/github.linux.versions.yml
+    artifacts: []
+    params:
+      MATRIX: ${{ matrix.r_version }}
+
+    branch: actions-347-github-test-r-versions
+    commit: e62008a0c18de68e04e66f3dd013ec934bb7d9c7
+  test-r-without-arrow: !Task
+    ci: azure
+    template: r/azure.linux.yml
+    artifacts: []
+    params:
+      r_org: rhub
+      r_image: ubuntu-gcc-release
+      r_tag: latest
+      libarrow_download: 'FALSE'
+      libarrow_build: 'FALSE'
+      with_arrow: 'FALSE'
+      not_cran: 'FALSE'
+
+    branch: actions-347-azure-test-r-without-arrow
+    commit: bf98a6a9ca7ba4bf4cd4c6a65b3bb6d1c0ff6a3c
+params: {}
+branch: actions-347

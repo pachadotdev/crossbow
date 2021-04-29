@@ -1,0 +1,26 @@
+!Job
+target: !Target
+  head: 7836e8161af4c13f5de660381e037b98455cd181
+  email: szucs.krisztian@gmail.com
+  branch: master
+  remote: https://github.com/kszucs/arrow
+  version: 3.1.0.dev736
+  no_rc_version: 3.1.0.dev736
+  no_rc_semver_version: 3.1.0-dev736
+tasks:
+  test-conda-python-3.7-pandas-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        PANDAS: latest
+      # use the latest pandas release, so prevent reusing any cached layers
+      flags: --no-leaf-cache
+      image: conda-python-pandas
+
+    branch: build-277-github-test-conda-python-3.7-pandas-latest
+    commit: 338345d45bedd614773a5f5b129831065989e2f2
+params: {}
+branch: build-277

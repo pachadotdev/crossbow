@@ -1,0 +1,135 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+
+# NOTE: must set "Crossbow" as name to have the badge links working in the
+# github comment reports!
+name: Crossbow
+on:
+  push:
+    branches:
+      - "*-github-*"
+
+
+jobs:
+  build-cpp-ubuntu:
+    name: Build C++ Gandiva Libs Ubuntu
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout Arrow
+        run: |
+          git clone --no-checkout https://github.com/s1mbi0se/arrow.git arrow
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow.git feature/create-single-jar-macos-linux
+          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout f7ae1632c31a955fd78a45b029508f766cc2cb76; else git -C arrow checkout FETCH_HEAD; fi
+          git -C arrow submodule update --init --recursive
+      - name: Build Gandiva
+        run: |
+          python3 -VV
+          cd arrow
+          mkdir -p dist
+          export CC="gcc-4.9" CXX="g++-4.9"
+          ulimit -c unlimited -S
+          set -e
+          docker run -v $PWD:/arrow quay.io/anthonylouisbsb/arrow:gandivadocker /arrow/dev/tasks/gandiva-jars/build-cpp-linux.sh
+          dev/tasks/gandiva-jars/check-shared-dependencies.sh
+        env:
+          OS_NAME: "linux"
+          CHECK_SHARED_DEPENDENCIES: true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: ubuntu-shared-lib
+          path: arrow/dist/libgandiva_jni.so
+  build-cpp-macos:
+    name: Build C++ Gandiva Libs MacOS
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Arrow
+        run: |
+          git clone --no-checkout https://github.com/s1mbi0se/arrow.git arrow
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow.git feature/create-single-jar-macos-linux
+          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout f7ae1632c31a955fd78a45b029508f766cc2cb76; else git -C arrow checkout FETCH_HEAD; fi
+          git -C arrow submodule update --init --recursive
+      - name: Build Gandiva
+        run: |
+          cd arrow
+          mkdir -p dist
+          export ARROW_TEST_DATA=$PWD/testing/data
+          set -e
+          dev/tasks/gandiva-jars/build-cpp-osx.sh
+          dev/tasks/gandiva-jars/check-shared-dependencies.sh
+        env:
+          OS_NAME: "osx"
+          CHECK_SHARED_DEPENDENCIES: true
+          MACOSX_DEPLOYMENT_TARGET: "10.11"
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: macos-shared-lib
+          path: arrow/dist/libgandiva_jni.dylib
+  package-jar:
+    name: Build Gandiva Jar
+    runs-on: macos-latest
+    needs: [build-cpp-macos, build-cpp-ubuntu]
+    steps:
+      - name: Checkout Arrow
+        run: |
+          git clone --no-checkout https://github.com/s1mbi0se/arrow.git arrow
+          git -C arrow fetch -t https://github.com/s1mbi0se/arrow.git feature/create-single-jar-macos-linux
+          if [ $CROSSBOW_USE_COMMIT_ID = true ]; then git -C arrow checkout f7ae1632c31a955fd78a45b029508f766cc2cb76; else git -C arrow checkout FETCH_HEAD; fi
+          git -C arrow submodule update --init --recursive
+          mkdir -p arrow/dist
+      - name: Download Linux Gandiva Library
+        uses: actions/download-artifact@v2
+        with:
+          name: ubuntu-shared-lib
+          path: arrow/dist
+      - name: Download MacOS Gandiva Library
+        uses: actions/download-artifact@v2
+        with:
+          name: macos-shared-lib
+          path: arrow/dist
+      - name: Build Gandiva Jar
+        run: |
+          cd arrow
+          export ARROW_TEST_DATA=$PWD/testing/data
+          set -e
+          dev/tasks/gandiva-jars/build-java.sh
+        env:
+          OS_NAME: "osx"
+          COPY_JAR_TO_DISTRIBUTION_FOLDER: true
+          MACOSX_DEPLOYMENT_TARGET: "10.11"
+  
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Setup Crossbow
+        shell: bash
+        run: pip install -e arrow/dev/archery[crossbow]
+      - name: Upload artifacts
+        shell: bash
+        run: |
+          archery crossbow \
+          --queue-path $(pwd) \
+          --queue-remote https://github.com/ursacomputing/crossbow \
+          upload-artifacts \
+          --sha actions-363-github-gandiva-jar \
+          --tag actions-363-github-gandiva-jar \
+          --pattern "arrow/dist/*.jar"
+        env:
+          CROSSBOW_GITHUB_TOKEN: ${{ secrets.CROSSBOW_GITHUB_TOKEN }}

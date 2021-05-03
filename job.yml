@@ -1,0 +1,89 @@
+!Job
+target: !Target
+  head: 4b64c86ba5bd28e5c6307c3f302b62143778b384
+  email: unknown
+  branch: ARROW-12611-ci-pandas-numpy
+  remote: https://github.com/jorisvandenbossche/arrow.git
+  version: 3.1.0.dev775
+  no_rc_version: 3.1.0.dev775
+  no_rc_semver_version: 3.1.0-dev775
+tasks:
+  test-conda-python-3.9-pandas-master: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.9
+        PANDAS: master
+        NUMPY: nightly
+      image: conda-python-pandas
+
+    branch: actions-364-github-test-conda-python-3.9-pandas-master
+    commit: 19f4abf663a6853bb31e25f29116caa99fcac03a
+  test-conda-python-3.8-pandas-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        PANDAS: latest
+        NUMPY: latest
+      image: conda-python-pandas
+    branch: actions-364-github-test-conda-python-3.8-pandas-latest
+    commit: e7569553f82281bb6848125eb71be90a004a9c00
+  test-conda-python-3.7-pandas-0.24: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        PANDAS: 0.24
+        NUMPY: 1.19
+      # use the latest pandas release, so prevent reusing any cached layers
+      flags: --no-leaf-cache
+      image: conda-python-pandas
+    branch: actions-364-github-test-conda-python-3.7-pandas-0.24
+    commit: 6350be25ee436bf4ba9eb60908397efdd67c2975
+  test-conda-python-3.7-pandas-latest: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.7
+        PANDAS: latest
+        NUMPY: latest
+      image: conda-python-pandas
+    branch: actions-364-github-test-conda-python-3.7-pandas-latest
+    commit: 18b51a176876063fe9e99594a8f0d80f2f90d0ab
+  test-conda-python-3.6-pandas-0.23: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.6
+        PANDAS: 0.23
+        NUMPY: 1.16
+      # use the latest pandas release, so prevent reusing any cached layers
+      flags: --no-leaf-cache
+      image: conda-python-pandas
+    branch: actions-364-github-test-conda-python-3.6-pandas-0.23
+    commit: 03374bbf262ac8b522dd36cd9cd4f406dbc973b8
+  test-conda-python-3.8-pandas-nightly: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.8
+        PANDAS: nightly
+        NUMPY: nightly
+      image: conda-python-pandas
+    branch: actions-364-github-test-conda-python-3.8-pandas-nightly
+    commit: 2b27fcd249397771f99949b8cc3a598582ef3e92
+params: {}
+branch: actions-364

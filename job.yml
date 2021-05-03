@@ -1,0 +1,26 @@
+!Job
+target: !Target
+  head: eae2a0565f9ad830813d5d99b76711e2c12c6607
+  email: unknown
+  branch: ARROW-12611-ci-pandas-numpy
+  remote: https://github.com/jorisvandenbossche/arrow.git
+  version: 3.1.0.dev777
+  no_rc_version: 3.1.0.dev777
+  no_rc_semver_version: 3.1.0-dev777
+tasks:
+  test-conda-python-3.6-pandas-0.23: !Task
+    ci: github
+    template: docker-tests/github.linux.yml
+    artifacts: []
+    params:
+      env:
+        PYTHON: 3.6
+        PANDAS: 0.23
+        NUMPY: 1.16
+      # use the latest pandas release, so prevent reusing any cached layers
+      flags: --no-leaf-cache
+      image: conda-python-pandas
+    branch: actions-365-github-test-conda-python-3.6-pandas-0.23
+    commit: d1812eb0b5a1c83a528ff477720d3e1e7fac0eec
+params: {}
+branch: actions-365
